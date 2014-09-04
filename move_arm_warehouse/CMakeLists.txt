@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.4.6)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
+#Fix to address https://bugreports.qt-project.org/browse/QTBUG-22829
+##add_definitions(-DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED)
 set(ROS_BUILD_TYPE Debug)
 
 rosbuild_init()
@@ -17,7 +19,9 @@ set( QT_WIDGET_HEADERS
 
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
-qt4_wrap_cpp(moc_sources ${QT_WIDGET_HEADERS})
+#Fix to address https://bugreports.qt-project.org/browse/QTBUG-22829
+qt4_wrap_cpp(moc_sources ${QT_WIDGET_HEADERS}
+  OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED)
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${QT_INCLUDE_DIR})
 
